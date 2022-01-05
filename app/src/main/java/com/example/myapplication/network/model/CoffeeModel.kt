@@ -16,6 +16,6 @@ data class CoffeeModel(
 )
 {
     fun toPrettyString(): String {
-        return "Blend: $blendName\nOrigin: $origin\nVariety: $variety\nNotes: $notes\nIntensifier: $intensifier"
+        return "Blend: $blendName\nOrigin: $origin\nVariety: $variety\nNotes: $notes\nIntensifier: $intensifier\n"
     }
 }
