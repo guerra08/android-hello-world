@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             MyApplicationTheme {
                 Scaffold(
-                    floatingActionButton = { SendRequestButton(text = "Add") },
+                    floatingActionButton = { SendRequestButton() },
                     content = {
                         if(isLoading.value){
                             Box(
@@ -43,8 +43,18 @@ class MainActivity : ComponentActivity() {
                                 CircularProgressIndicator()
                             }
                         }
-                        else {
-                            ListOfCoffees(coffees = coffeesState.value)
+                        else{
+                            if (coffeesState.value.isEmpty()){
+                                Box(
+                                    contentAlignment = Alignment.Center,
+                                    modifier = Modifier.fillMaxSize()
+                                ){
+                                    Text(text = "Click the + button to get a new coffee!")
+                                }
+                            }
+                            else {
+                                ListOfCoffees(coffees = coffeesState.value)
+                            }
                         }
                     }
                 )
@@ -68,7 +78,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun SendRequestButton(text: String) {
+    fun SendRequestButton() {
         FloatingActionButton(
             onClick = {
                 isLoading.value = true
