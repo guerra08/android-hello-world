@@ -15,6 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import com.example.myapplication.network.model.CoffeeModel
 import com.example.myapplication.network.service.CoffeeService
+import com.example.myapplication.ui.buttons.SendRequestButton
+import com.example.myapplication.ui.coffees.ListOfCoffees
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
@@ -33,26 +35,40 @@ class MainActivity : ComponentActivity() {
         setContent {
             MyApplicationTheme {
                 Scaffold(
-                    floatingActionButton = { SendRequestButton() },
+                    floatingActionButton =
+                    {
+                        SendRequestButton(
+                            onClickFun = {
+                                isLoading.value = true
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    val coffee = service.getCoffee()
+                                    withContext(Dispatchers.Main) {
+                                        val currentCoffees = ArrayList(coffeesState.value)
+                                        currentCoffees.add(coffee)
+                                        coffeesState.value = currentCoffees
+                                        isLoading.value = false
+                                    }
+                                }
+                            }
+                        )
+                    },
                     content = {
-                        if(isLoading.value){
+                        if (isLoading.value) {
                             Box(
                                 contentAlignment = Alignment.Center,
                                 modifier = Modifier.fillMaxSize()
-                            ){
+                            ) {
                                 CircularProgressIndicator()
                             }
-                        }
-                        else{
-                            if (coffeesState.value.isEmpty()){
+                        } else {
+                            if (coffeesState.value.isEmpty()) {
                                 Box(
                                     contentAlignment = Alignment.Center,
                                     modifier = Modifier.fillMaxSize()
-                                ){
+                                ) {
                                     Text(text = "Click the + button to get a new coffee!")
                                 }
-                            }
-                            else {
+                            } else {
                                 ListOfCoffees(coffees = coffeesState.value)
                             }
                         }
@@ -60,41 +76,5 @@ class MainActivity : ComponentActivity() {
                 )
             }
         }
-    }
-
-    @Composable
-    fun ListOfCoffees(coffees: List<CoffeeModel>) {
-        Column(
-            modifier = Modifier
-                .verticalScroll(rememberScrollState())
-                .padding(all = Dp(16F))
-        ) {
-            coffees.forEach { coffee ->
-                Row {
-                   Text(text = coffee.toPrettyString()) 
-                }
-            }
-        }
-    }
-
-    @Composable
-    fun SendRequestButton() {
-        FloatingActionButton(
-            onClick = {
-                isLoading.value = true
-                CoroutineScope(Dispatchers.IO).launch {
-                    val coffee = service.getCoffee()
-                    withContext(Dispatchers.Main) {
-                        val currentCoffees = ArrayList(coffeesState.value)
-                        currentCoffees.add(coffee)
-                        coffeesState.value = currentCoffees
-                        isLoading.value = false
-                    }
-                }
-            },
-            content = {
-                Icon(Icons.Filled.Add,"")
-            }
-        )
     }
 }
