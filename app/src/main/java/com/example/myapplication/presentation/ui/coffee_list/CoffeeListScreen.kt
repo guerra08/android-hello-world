@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
+import com.example.myapplication.presentation.components.CoffeeList
 import com.example.myapplication.presentation.components.FloatingAddButton
 import com.example.myapplication.presentation.theme.MyApplicationTheme
 import kotlinx.coroutines.CoroutineScope
@@ -48,17 +49,7 @@ fun CoffeeListScreen(viewModel: CoffeeListViewModel) {
                             Text(text = "Click the + button to get a new coffee!")
                         }
                     } else {
-                        Column(
-                            modifier = Modifier
-                                .verticalScroll(rememberScrollState())
-                                .padding(all = Dp(16F))
-                        ) {
-                            coffees.forEach { coffee ->
-                                Row {
-                                    Text(text = coffee.toPrettyString())
-                                }
-                            }
-                        }
+                        CoffeeList(coffees = coffees)
                     }
                 }
             }
