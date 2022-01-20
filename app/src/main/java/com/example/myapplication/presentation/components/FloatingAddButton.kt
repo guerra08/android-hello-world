@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.buttons
+package com.example.myapplication.presentation.components
 
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
@@ -7,7 +7,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 
 @Composable
-fun SendRequestButton(onClickFun: () -> Unit) {
+fun FloatingAddButton(onClickFun: () -> Unit) {
     FloatingActionButton(
         onClick = onClickFun,
         content = {
