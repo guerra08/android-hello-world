@@ -49,7 +49,9 @@ fun CoffeeListScreen(
                     } else {
                         CoffeeList(
                             coffees = coffees,
-                            onClickNavigateToDetails = { navController.navigate(Screen.CoffeeDetails.route) }
+                            onClickNavigateToDetails = {
+                                navController.navigate(Screen.CoffeeDetails.route)
+                            }
                         )
                     }
                 }
