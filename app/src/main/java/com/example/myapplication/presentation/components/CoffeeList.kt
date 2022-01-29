@@ -10,7 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
-import com.example.myapplication.network.model.CoffeeModel
+import com.example.myapplication.domain.models.CoffeeModel
 
 @Composable
 fun CoffeeList(coffees: List<CoffeeModel>, onClickNavigateToDetails: () -> Unit){

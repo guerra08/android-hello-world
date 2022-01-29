@@ -1,7 +1,7 @@
 package com.example.myapplication.di
 
-import com.example.myapplication.network.service.CoffeeService
-import com.example.myapplication.network.service.CoffeeServiceImpl
+import com.example.myapplication.data.CoffeeRepositoryImpl
+import com.example.myapplication.domain.interfaces.CoffeeRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -10,12 +10,12 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object ServiceModule {
+object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideCoffeeService(): CoffeeService {
-        return CoffeeServiceImpl()
+    fun provideCoffeeRepository(): CoffeeRepository {
+        return CoffeeRepositoryImpl()
     }
 
 }

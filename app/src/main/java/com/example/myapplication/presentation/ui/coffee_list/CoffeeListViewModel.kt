@@ -5,15 +5,15 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myapplication.network.model.CoffeeModel
-import com.example.myapplication.network.service.CoffeeService
+import com.example.myapplication.domain.interfaces.CoffeeRepository
+import com.example.myapplication.domain.models.CoffeeModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CoffeeListViewModel @Inject constructor(
-    private val service: CoffeeService
+    private val coffeeRepository: CoffeeRepository
 ) : ViewModel() {
 
     private val _originalCoffees: MutableState<List<CoffeeModel>> = mutableStateOf(ArrayList())
@@ -28,7 +28,7 @@ class CoffeeListViewModel @Inject constructor(
     fun addCoffee(){
         _isLoading.value = true
         viewModelScope.launch {
-            val coffee = service.getCoffee()
+            val coffee = coffeeRepository.getCoffee()
             val currentCoffees = ArrayList(_originalCoffees.value)
             currentCoffees.add(coffee)
 

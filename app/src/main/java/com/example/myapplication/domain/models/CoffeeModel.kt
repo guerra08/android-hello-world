@@ -1,4 +1,4 @@
-package com.example.myapplication.network.model
+package com.example.myapplication.domain.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
