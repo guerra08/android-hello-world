@@ -16,20 +16,41 @@ class CoffeeListViewModel @Inject constructor(
     private val service: CoffeeService
 ) : ViewModel() {
 
+    private val _originalCoffees: MutableState<List<CoffeeModel>> = mutableStateOf(ArrayList())
     private val _coffees: MutableState<List<CoffeeModel>> = mutableStateOf(ArrayList())
+    private val _filterText = mutableStateOf("")
     private val _isLoading = mutableStateOf(false)
 
-    val coffees: State<List<CoffeeModel>> = _coffees
-    val isLoading: State<Boolean> = _isLoading
+    val isLoading: State<Boolean> get() = _isLoading
+    val filterText: State<String> get() = _filterText
+    val coffees: State<List<CoffeeModel>> get() = _coffees
 
     fun addCoffee(){
         _isLoading.value = true
         viewModelScope.launch {
             val coffee = service.getCoffee()
-            val currentCoffees = ArrayList(_coffees.value)
+            val currentCoffees = ArrayList(_originalCoffees.value)
             currentCoffees.add(coffee)
+
+            _originalCoffees.value = currentCoffees
             _coffees.value = currentCoffees
+            _filterText.value = ""
+
             _isLoading.value = false
         }
+    }
+
+    fun filterCoffees() {
+        if(_filterText.value.isEmpty())
+            _coffees.value = _originalCoffees.value
+        else {
+            _coffees.value = _originalCoffees.value.filter {
+                it.blendName.lowercase().contains(_filterText.value.lowercase())
+            }
+        }
+    }
+
+    fun onQueryChanged(text: String) {
+        _filterText.value = text
     }
 }
