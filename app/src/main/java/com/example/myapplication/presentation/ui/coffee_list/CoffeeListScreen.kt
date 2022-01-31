@@ -55,11 +55,12 @@ fun CoffeeListScreen(
                             SearchBar(
                                 searchText = filterText,
                                 onValueChanged = viewModel::onQueryChanged,
-                                onSearch = viewModel::filterCoffees,
-                                onClearInputPress = viewModel::clearQuery
+                                onSearch = {  },
+                                onClearInputPress = viewModel::onClearQuery
                             )
                             CoffeeList(
-                                coffees = coffees
+                                coffees = coffees,
+                                onNavigateToCoffeeDetails = { navController.navigate(Screen.CoffeeDetails.route) }
                             )
                         }
                     }

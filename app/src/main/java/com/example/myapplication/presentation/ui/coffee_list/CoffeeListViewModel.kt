@@ -25,6 +25,9 @@ class CoffeeListViewModel @Inject constructor(
     val filterText: State<String> get() = _filterText
     val coffees: State<List<CoffeeModel>> get() = _coffees
 
+    /**
+     * Gets a Coffee from the API and updates the state
+     */
     fun addCoffee(){
         _isLoading.value = true
         viewModelScope.launch {
@@ -40,7 +43,26 @@ class CoffeeListViewModel @Inject constructor(
         }
     }
 
-    fun filterCoffees() {
+    /**
+     * Filters the Coffee list when the user input changes
+     */
+    fun onQueryChanged(text: String) {
+        _filterText.value = text
+        filterCoffees()
+    }
+
+    /**
+     * Clears the filter when the users cleans the input
+     */
+    fun onClearQuery(){
+        _filterText.value = ""
+        filterCoffees()
+    }
+
+    /**
+     * Filters the Coffee list based on the current filter text
+     */
+    private fun filterCoffees() {
         if(_filterText.value.isEmpty())
             _coffees.value = _originalCoffees.value
         else {
@@ -50,13 +72,4 @@ class CoffeeListViewModel @Inject constructor(
         }
     }
 
-    fun onQueryChanged(text: String) {
-        _filterText.value = text
-        filterCoffees()
-    }
-
-    fun clearQuery(){
-        _filterText.value = ""
-        filterCoffees()
-    }
 }
