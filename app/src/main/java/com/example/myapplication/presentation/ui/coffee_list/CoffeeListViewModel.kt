@@ -53,4 +53,9 @@ class CoffeeListViewModel @Inject constructor(
     fun onQueryChanged(text: String) {
         _filterText.value = text
     }
+
+    fun clearQuery(){
+        _filterText.value = ""
+        filterCoffees()
+    }
 }

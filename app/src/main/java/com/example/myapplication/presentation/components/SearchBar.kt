@@ -1,11 +1,16 @@
 package com.example.myapplication.presentation.components
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,7 +22,8 @@ import androidx.compose.ui.tooling.preview.Preview
 fun SearchBar(
     searchText: String,
     onValueChanged: (String) -> Unit,
-    onSearch: () -> Unit
+    onSearch: () -> Unit,
+    onClearInputPress: () -> Unit
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -38,6 +44,16 @@ fun SearchBar(
             .background(color = Color.Transparent),
         placeholder = {
             Text(text = "Filter coffees by blend")
+        },
+        trailingIcon = {
+            if(searchText.isNotBlank()) {
+                IconButton(onClick = onClearInputPress) {
+                    Icon(
+                        imageVector = Icons.Outlined.Close,
+                        contentDescription = null
+                    )
+                }
+            }
         }
     )
 }
@@ -45,5 +61,5 @@ fun SearchBar(
 @Preview
 @Composable
 fun SearchBarPreview() {
-    SearchBar(searchText = "", onValueChanged = {}, onSearch = {})
+    SearchBar(searchText = "", onValueChanged = {}, onSearch = {}, onClearInputPress = {})
 }
