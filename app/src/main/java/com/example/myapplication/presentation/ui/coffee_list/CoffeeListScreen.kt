@@ -43,7 +43,7 @@ fun CoffeeListScreen(
                         CircularProgressIndicator()
                     }
                 } else {
-                    if (coffees.isEmpty()) {
+                    if (coffees.isEmpty() && filterText.isEmpty()) {
                         Box(
                             contentAlignment = Alignment.Center,
                             modifier = Modifier.fillMaxSize()
